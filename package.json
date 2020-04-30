@@ -16,6 +16,7 @@
     "dynamic-code-analysis": "jest --coverage",
     "jest": "jest",
     "build": "rm -rf build && tsc",
+    "prepare": "npm run build",
     "clean": "rm -rf build && rm -rf dist",
     "build-module": "npm run clean && NODE_ENV=production tsc && publish-flat -f build -o dist",
     "publish-module": "npm run build-module && cd dist && npm publish"
