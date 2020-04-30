@@ -1,5 +1,5 @@
-[![Build Status](https://travis-ci.org/hyperjumptech/react-native-confetti.svg?branch=master)](https://travis-ci.org/hyperjumptech/react-native-confetti)
-[![Build Status](https://dev.azure.com/hyperjumptech/react-native-confetti/_apis/build/status/hyperjumptech.react-native-confetti?branchName=master)](https://dev.azure.com/hyperjumptech/react-native-confetti/_build/latest?definitionId=1&branchName=master)
+[![Build Status](https://travis-ci.org/aitorct/react-native-confetti.svg?branch=master)](https://travis-ci.org/aitorct/react-native-confetti)
+[![Build Status](https://dev.azure.com/aitorct/react-native-confetti/_apis/build/status/aitorct.react-native-confetti?branchName=master)](https://dev.azure.com/aitorct/react-native-confetti/_build/latest?definitionId=1&branchName=master)
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 [![contributions welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat)](./CONTRIBUTING.md)
 
@@ -11,46 +11,30 @@ This is some example
 
 ## snow effect
 
-<img src="https://github.com/hyperjumptech/react-native-confetti/blob/master/demo/snow-android.gif?raw=true" width="320" /><img src="https://github.com/hyperjumptech/react-native-confetti/blob/master/demo/snow-ios.gif?raw=true" width="320" />
+<img src="https://github.com/aitorct/react-native-confetti/blob/master/demo/snow-android.gif?raw=true" width="320" /><img src="https://github.com/aitorct/react-native-confetti/blob/master/demo/snow-ios.gif?raw=true" width="320" />
 
 (the animation is not lagging. it's because you need to wait for the gif asset to load)
 
 ## shake effect
 
-<img src="https://github.com/hyperjumptech/react-native-confetti/blob/master/demo/shake-android.gif?raw=true" width="320" /><img src="https://github.com/hyperjumptech/react-native-confetti/blob/master/demo/shake-ios.gif?raw=true" width="320" />
+<img src="https://github.com/aitorct/react-native-confetti/blob/master/demo/shake-android.gif?raw=true" width="320" /><img src="https://github.com/aitorct/react-native-confetti/blob/master/demo/shake-ios.gif?raw=true" width="320" />
 
 (the animation is not lagging. it's because you need to wait for the gif asset to load)
 
 # Getting Started
-
-## Dependencies
-
-To be able to dynamically enable confetti or to change the character, your react native app must:
-
-1. Install [react-native-firebase](https://rnfirebase.io/) (the Core module and Remote Config module)
-2. Set up your app to use Firebase
-3. Create 5 parameters with value of string in your project's remote config:
-
-   | parameter             | example value | description                                                                                                                                                                                                                                           |
-   | --------------------- | ------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-   | `confetti_enabled`    | 1             | set `1` to enable, set `0` to disable                                                                                                                                                                                                                 |
-   | `confetti_image_name` | snowflake     | if it has value, the flying piece of the Confetti will use this parameter instead of `confetti_character`. if you want to use character instead, set this parameter to empty string. Further explanation in using image will be given in next section |
-   | `confetti_character`  | ❅             | set this value with any character or unicode / emoji. eg: ❅, ❤️, 🏮. if parameter `confetti_image_name` is not empty string, this parameter is not being used                                                                                         |
-   | `confetti_type`       | shake         | set the value `shake` or `snow`. With `snow`, you just use vertical falling animation. With `shake` you get additional horizontal shake animation.                                                                                                    |
-   | `confetti_color`      | #6FC4C7       | hexadecimal value string                                                                                                                                                                                                                              |
 
 ## Installation process
 
 Using npm:
 
 ```
-npm i @hyperjumptech/react-native-confetti --save
+npm i aitorct/react-native-confetti#master --save
 ```
 
 or using yarn:
 
 ```
-yarn add @hyperjumptech/react-native-confetti
+yarn add ssh://github.com/aitorct/react-native-confetti#master
 ```
 
 ## Usage
@@ -60,7 +44,7 @@ yarn add @hyperjumptech/react-native-confetti
 import package
 
 ```javascript
-import {Confetti} from '@hyperjumptech/react-native-confetti';
+import {Confetti} from '@aitorct/react-native-confetti';
 ```
 
 then put the component inside render
@@ -77,7 +61,7 @@ import package
 import {
   Confetti,
   fetchConfettiFromFirebase,
-} from '@hyperjumptech/react-native-confetti';
+} from '@aitorct/react-native-confetti';
 ```
 
 define state to hold the parameters
