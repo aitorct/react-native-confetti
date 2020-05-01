@@ -75,14 +75,10 @@ const Confetti = ({
             shakeDuration,
           } = item;
 
-          console.log('computation');
-
           let realSize, realFallDuration;
           if (!!aspectRatio && !!minSize && !!maxSize) {
             realSize = aspectRatio * _getRandomNumber(minSize, maxSize);
-            console.log('REALSIZE ', realSize);
             realFallDuration = (maxSize * MIN_FALL_DURATION) / realSize;
-            console.log('TIME ', realFallDuration);
           }
 
           return (
