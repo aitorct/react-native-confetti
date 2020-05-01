@@ -87,7 +87,7 @@ const Confetti = ({
 
           return (
             <FlyingPiece
-              key={`FlyingPiece-${i}`}
+              key={`FlyingPiece-${i}-${realSize || size}`}
               character={character}
               size={realSize || size}
               aspectRatio={aspectRatio}

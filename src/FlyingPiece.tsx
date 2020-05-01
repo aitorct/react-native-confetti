@@ -7,7 +7,6 @@ import {
   TextStyle,
   Image,
   ImageURISource,
-  Platform,
 } from 'react-native';
 
 import {
@@ -89,7 +88,7 @@ class FlyingPiece extends Component<Props, State> {
         toValue: 1,
         easing: Easing.linear,
         duration: this.props.fallDuration,
-        useNativeDriver: Platform.OS !== 'ios',
+        useNativeDriver: true,
       }),
     );
 
