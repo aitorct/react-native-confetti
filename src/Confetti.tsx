@@ -1,5 +1,5 @@
-import React, {ReactNode} from 'react';
-import {StyleSheet, View} from 'react-native';
+import React from 'react';
+import {StyleSheet, View, ImageURISource} from 'react-native';
 
 import FlyingPiece from './FlyingPiece';
 import {
@@ -16,7 +16,10 @@ interface Props {
   isEnabled: boolean;
   color: string;
   character?: string;
-  imageComponent?: ReactNode;
+  imagePath?: ImageURISource;
+  aspectRatio?: number;
+  minSize?: number;
+  maxSize?: number;
   effect?: 'snow' | 'shake';
 }
 
@@ -30,17 +33,17 @@ interface PieceProps {
 }
 
 const MIN_FALL_DELAY = 1 * SECOND;
-const MIN_FALL_DURATION = 8 * SECOND;
+const MIN_FALL_DURATION = 0.5 * SECOND;
 const MIN_SHAKE_DELAY = 1 * SECOND;
 const MIN_SHAKE_DURATION = 3 * SECOND;
 const MIN_AMPLITUDE = 1;
 const MIN_SIZE = 1;
 
 const MAX_FALL_DELAY = 8 * SECOND;
-const MAX_FALL_DURATION = 12 * SECOND;
+const MAX_FALL_DURATION = 3 * SECOND;
 const MAX_SHAKE_DELAY = 4 * SECOND;
 const MAX_SHAKE_DURATION = 2 * SECOND;
-const MAX_AMPLITUDE = 50;
+const MAX_AMPLITUDE = 1;
 const MAX_CHARACTER =
   WINDOW_WIDTH_WITH_BUFFER /
   (MAX_AMPLITUDE / (MAX_AMPLITUDE * BUFFER_CONSTANT));
@@ -50,7 +53,10 @@ const Confetti = ({
   isEnabled,
   color,
   character = '❅',
-  imageComponent,
+  imagePath,
+  aspectRatio,
+  minSize,
+  maxSize,
   effect = 'snow',
 }: Props) => {
   const flyingPiecesStyle = !!color ? {color} : undefined;
@@ -68,17 +74,29 @@ const Confetti = ({
             amplitude,
             shakeDuration,
           } = item;
+
+          console.log('computation');
+
+          let realSize, realFallDuration;
+          if (!!aspectRatio && !!minSize && !!maxSize) {
+            realSize = aspectRatio * _getRandomNumber(minSize, maxSize);
+            console.log('REALSIZE ', realSize);
+            realFallDuration = (maxSize * MIN_FALL_DURATION) / realSize;
+            console.log('TIME ', realFallDuration);
+          }
+
           return (
             <FlyingPiece
               key={`FlyingPiece-${i}`}
               character={character}
-              size={size}
+              size={realSize || size}
+              aspectRatio={aspectRatio}
               fallDelay={fallDelay}
-              fallDuration={fallDuration}
+              fallDuration={realFallDuration || fallDuration}
               shakeDelay={shakeDelay}
               shakeDuration={shakeDuration}
               style={flyingPiecesStyle}
-              imageComponent={imageComponent}
+              imagePath={imagePath}
               amplitude={amplitude}
               effect={effect}
             />

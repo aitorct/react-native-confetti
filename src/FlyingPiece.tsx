@@ -1,5 +1,14 @@
-import React, {Component, ReactNode} from 'react';
-import {StyleSheet, Animated, Easing, AppState, TextStyle} from 'react-native';
+import React, {Component} from 'react';
+import {
+  StyleSheet,
+  Animated,
+  Easing,
+  AppState,
+  TextStyle,
+  Image,
+  ImageURISource,
+  Platform,
+} from 'react-native';
 
 import {
   BUFFER_CONSTANT,
@@ -10,12 +19,13 @@ import {
 interface Props {
   character?: string;
   size: number;
+  aspectRatio?: number;
   fallDelay: number;
   fallDuration: number;
   shakeDelay: number;
   shakeDuration: number;
   style?: TextStyle;
-  imageComponent?: ReactNode;
+  imagePath?: ImageURISource;
   amplitude: number;
   effect: 'snow' | 'shake';
 }
@@ -79,7 +89,7 @@ class FlyingPiece extends Component<Props, State> {
         toValue: 1,
         easing: Easing.linear,
         duration: this.props.fallDuration,
-        useNativeDriver: true,
+        useNativeDriver: Platform.OS !== 'ios',
       }),
     );
 
@@ -102,17 +112,10 @@ class FlyingPiece extends Component<Props, State> {
       );
     }
 
-    setTimeout(() => {
-      if (this._fallAnimation) {
-        this._fallAnimation.start();
-      }
-    }, this.props.fallDelay);
+    setTimeout(this._fallAnimation.start, this.props.fallDelay);
 
-    setTimeout(() => {
-      if (this._shakeAnimation) {
-        this._shakeAnimation.start();
-      }
-    }, this.props.shakeDelay);
+    this._shakeAnimation &&
+      setTimeout(this._shakeAnimation.start, this.props.shakeDelay);
   }
 
   componentDidMount() {
@@ -125,7 +128,14 @@ class FlyingPiece extends Component<Props, State> {
   }
 
   render() {
-    const {style, character, imageComponent, size, amplitude} = this.props;
+    const {
+      style,
+      character,
+      imagePath,
+      size,
+      amplitude,
+      aspectRatio,
+    } = this.props;
 
     const translateX = this.state.translateX.interpolate({
       inputRange: [0, 1],
@@ -137,7 +147,7 @@ class FlyingPiece extends Component<Props, State> {
       outputRange: [0, WINDOW_HEIGHT_WITH_BUFFER],
     });
 
-    if (imageComponent) {
+    if (imagePath && aspectRatio) {
       return (
         <Animated.View
           style={[
@@ -148,7 +158,13 @@ class FlyingPiece extends Component<Props, State> {
             style,
           ]}
         >
-          {imageComponent}
+          <Image
+            source={imagePath}
+            style={{
+              width: size * aspectRatio,
+              height: size,
+            }}
+          />
         </Animated.View>
       );
     }
