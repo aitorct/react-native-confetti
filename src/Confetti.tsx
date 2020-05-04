@@ -82,8 +82,8 @@ const Confetti = ({
             const randomSizeFactor = _getRandomNumber(minSize, maxSize);
             realSize = aspectRatio * randomSizeFactor;
             realFallDuration =
-              minDuration +
-              ((maxDuration - minDuration) / (maxSize - minSize)) *
+              maxDuration +
+              ((minDuration - maxDuration) / (maxSize - minSize)) *
                 (randomSizeFactor - minSize);
           } else if (!!aspectRatio && !(minSize && maxSize)) {
             return null;
@@ -119,12 +119,16 @@ const _getRandomNumber = (min: number, max: number) => {
 const _getFlyingPieces = (minDuration: number, maxDuration: number) => {
   let piecesArr: Array<PieceProps> = [];
   for (let i = 0; i < MAX_CHARACTER; i++) {
+    const size = _getRandomNumber(MIN_SIZE, MAX_SIZE);
     piecesArr.push({
-      size: _getRandomNumber(MIN_SIZE, MAX_SIZE),
+      size: size,
       fallDelay: _getRandomNumber(MIN_FALL_DELAY, MAX_FALL_DELAY),
       shakeDelay: _getRandomNumber(MIN_SHAKE_DELAY, MAX_SHAKE_DELAY),
       shakeDuration: _getRandomNumber(MIN_SHAKE_DURATION, MAX_SHAKE_DURATION),
-      fallDuration: _getRandomNumber(minDuration, maxDuration),
+      fallDuration:
+        maxDuration +
+        ((minDuration - maxDuration) / (MAX_SIZE - MIN_SIZE)) *
+          (size - MIN_SIZE),
       amplitude: _getRandomNumber(MIN_AMPLITUDE, MAX_AMPLITUDE),
     });
   }
