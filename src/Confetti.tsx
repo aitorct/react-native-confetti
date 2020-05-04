@@ -5,9 +5,7 @@ import FlyingPiece from './FlyingPiece';
 import {
   BUFFER_CONSTANT,
   CHARACTER_SIZE,
-  HEIGHT_BUFFER,
   SECOND,
-  WIDTH_BUFFER,
   WINDOW_HEIGHT_WITH_BUFFER,
   WINDOW_WIDTH_WITH_BUFFER,
 } from './constants';
@@ -20,6 +18,8 @@ interface Props {
   aspectRatio?: number;
   minSize?: number;
   maxSize?: number;
+  minDuration?: number;
+  maxDuration?: number;
   effect?: 'snow' | 'shake';
 }
 
@@ -57,10 +57,12 @@ const Confetti = ({
   aspectRatio,
   minSize,
   maxSize,
+  minDuration = MIN_FALL_DURATION,
+  maxDuration = MAX_FALL_DURATION,
   effect = 'snow',
 }: Props) => {
   const flyingPiecesStyle = !!color ? {color} : undefined;
-  const flyingPieces = _getFlyingPieces();
+  const flyingPieces = _getFlyingPieces(minDuration, maxDuration);
 
   if (isEnabled) {
     return (
@@ -80,9 +82,11 @@ const Confetti = ({
             const randomSizeFactor = _getRandomNumber(minSize, maxSize);
             realSize = aspectRatio * randomSizeFactor;
             realFallDuration =
-              MIN_FALL_DURATION +
-              ((MAX_FALL_DURATION - MIN_FALL_DURATION) / (maxSize - minSize)) *
+              minDuration +
+              ((maxDuration - minDuration) / (maxSize - minSize)) *
                 (randomSizeFactor - minSize);
+          } else if (!!aspectRatio && !(minSize && maxSize)) {
+            return null;
           }
 
           return (
@@ -112,7 +116,7 @@ const _getRandomNumber = (min: number, max: number) => {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 };
 
-const _getFlyingPieces = () => {
+const _getFlyingPieces = (minDuration: number, maxDuration: number) => {
   let piecesArr: Array<PieceProps> = [];
   for (let i = 0; i < MAX_CHARACTER; i++) {
     piecesArr.push({
@@ -120,7 +124,7 @@ const _getFlyingPieces = () => {
       fallDelay: _getRandomNumber(MIN_FALL_DELAY, MAX_FALL_DELAY),
       shakeDelay: _getRandomNumber(MIN_SHAKE_DELAY, MAX_SHAKE_DELAY),
       shakeDuration: _getRandomNumber(MIN_SHAKE_DURATION, MAX_SHAKE_DURATION),
-      fallDuration: _getRandomNumber(MIN_FALL_DURATION, MAX_FALL_DURATION),
+      fallDuration: _getRandomNumber(minDuration, maxDuration),
       amplitude: _getRandomNumber(MIN_AMPLITUDE, MAX_AMPLITUDE),
     });
   }
@@ -130,8 +134,6 @@ const _getFlyingPieces = () => {
 const styles = StyleSheet.create({
   view: {
     flexDirection: 'row',
-    zIndex: 1,
-    elevation: 9999,
     position: 'absolute',
     width: WINDOW_WIDTH_WITH_BUFFER,
     height: WINDOW_HEIGHT_WITH_BUFFER,
