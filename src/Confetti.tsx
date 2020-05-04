@@ -77,8 +77,12 @@ const Confetti = ({
 
           let realSize, realFallDuration;
           if (!!aspectRatio && !!minSize && !!maxSize) {
-            realSize = aspectRatio * _getRandomNumber(minSize, maxSize);
-            realFallDuration = (maxSize * MIN_FALL_DURATION) / realSize;
+            const randomSizeFactor = _getRandomNumber(minSize, maxSize);
+            realSize = aspectRatio * randomSizeFactor;
+            realFallDuration =
+              MIN_FALL_DURATION +
+              ((MAX_FALL_DURATION - MIN_FALL_DURATION) / (maxSize - minSize)) *
+                (randomSizeFactor - minSize);
           }
 
           return (
