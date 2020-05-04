@@ -129,11 +129,8 @@ const styles = StyleSheet.create({
     zIndex: 1,
     elevation: 9999,
     position: 'absolute',
-    top: -HEIGHT_BUFFER / 2,
-    left: -WIDTH_BUFFER / 2,
     width: WINDOW_WIDTH_WITH_BUFFER,
     height: WINDOW_HEIGHT_WITH_BUFFER,
-    backgroundColor: 'transparent',
   },
 });
 

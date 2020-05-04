@@ -9,11 +9,7 @@ import {
   ImageURISource,
 } from 'react-native';
 
-import {
-  BUFFER_CONSTANT,
-  WINDOW_HEIGHT_WITH_BUFFER,
-  WINDOW_HEIGHT,
-} from './constants';
+import {WINDOW_HEIGHT_WITH_BUFFER, HEIGHT_BUFFER} from './constants';
 
 interface Props {
   character?: string;
@@ -34,7 +30,6 @@ interface State {
   translateY: any;
   appState: any;
 }
-const topOffset = WINDOW_HEIGHT * BUFFER_CONSTANT;
 
 class FlyingPiece extends Component<Props, State> {
   _fallAnimation: any = null;
@@ -188,7 +183,7 @@ class FlyingPiece extends Component<Props, State> {
 
 const styles = StyleSheet.create({
   text: {
-    top: -topOffset,
+    top: -HEIGHT_BUFFER,
     height: WINDOW_HEIGHT_WITH_BUFFER,
     color: 'white',
     backgroundColor: 'transparent',
