@@ -22,7 +22,7 @@ interface Props {
   style?: TextStyle;
   imagePath?: ImageURISource;
   amplitude: number;
-  effect: 'snow' | 'shake';
+  effect: 'snow' | 'rain' | 'shake';
 }
 
 interface State {
@@ -33,6 +33,7 @@ interface State {
 
 class FlyingPiece extends Component<Props, State> {
   _fallAnimation: any = null;
+  _rainAnimation: any = null;
   _shakeAnimation: any = null;
 
   state: State = {
@@ -68,6 +69,14 @@ class FlyingPiece extends Component<Props, State> {
       });
     }
 
+    if (this._rainAnimation) {
+      this._rainAnimation.stop();
+      this._rainAnimation = null;
+      this.setState({
+        translateX: new Animated.Value(0),
+      });
+    }
+
     if (this._shakeAnimation) {
       this._shakeAnimation.stop();
       this._shakeAnimation = null;
@@ -86,6 +95,17 @@ class FlyingPiece extends Component<Props, State> {
         useNativeDriver: true,
       }),
     );
+
+    if (this.props.effect === 'rain') {
+      this._rainAnimation = Animated.loop(
+        Animated.timing(this.state.translateX, {
+          toValue: -1,
+          easing: Easing.ease,
+          duration: this.props.fallDuration,
+          useNativeDriver: true,
+        }),
+      );
+    }
 
     if (this.props.effect === 'shake') {
       this._shakeAnimation = Animated.loop(
@@ -107,6 +127,9 @@ class FlyingPiece extends Component<Props, State> {
     }
 
     setTimeout(this._fallAnimation.start, this.props.fallDelay);
+
+    this._rainAnimation &&
+      setTimeout(this._rainAnimation.start, this.props.fallDelay);
 
     this._shakeAnimation &&
       setTimeout(this._shakeAnimation.start, this.props.shakeDelay);

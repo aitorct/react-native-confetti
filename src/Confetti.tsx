@@ -20,7 +20,7 @@ interface Props {
   maxSize?: number;
   minDuration?: number;
   maxDuration?: number;
-  effect?: 'snow' | 'shake';
+  effect?: 'snow' | 'rain' | 'shake';
 }
 
 interface PieceProps {
